@@ -32,7 +32,7 @@ function App() {
         <main>
 
           <Route path="/cart/:id?" component={CartScreen} />
-          <Route path="/signIn" component={SignInScreen} />
+          <Route path="/signin" component={SignInScreen} />
           <Route path="/player/:id" component={PlayerScreen} />
           <Route path="/" component={HomeScreen} exact />
         </main>
