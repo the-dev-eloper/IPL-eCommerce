@@ -1,10 +1,26 @@
-import { BrowserRouter, Link, Route } from 'react-router-dom'
+import { BrowserRouter, Link, Route } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { signout } from './actions/userActions';
 import CartScreen from './screens/CartScreen';
 import HomeScreen from './screens/HomeScreen';
 import PlayerScreen from './screens/PlayerScreen';
 import SignInScreen from './screens/SignInScreen';
+import RegisterScreen from './screens/RegisterScreen';
 
 function App() {
+
+  const cart = useSelector((state) => state.cart);
+  const { cartItems } = cart;
+
+  const userSignin = useSelector((state) => state.userSignin);
+  const { userInfo } = userSignin;
+
+  const dispatch = useDispatch();
+
+  const signoutHandler = () => {
+    dispatch(signout());
+  };
+
   return (
 
     <BrowserRouter>
@@ -14,18 +30,36 @@ function App() {
         <header className="row">
 
           <div>
-            <button
-              type="button"
-              className="open-sidebar"
-            >
-              <i className="fa fa-bars"></i>
-            </button>
-            <Link to="/" className="brand">AUCTION</Link>
+            <Link to="/" className="brand">
+              AUCTION
+            </Link>
           </div>
-
           <div>
-            <Link to="/cart">Cart</Link>
-            <Link to="/signIn">Sign-In</Link>
+            <Link to="/cart">
+              Cart
+              {cartItems.length > 0 && (
+                <span className="badge">{cartItems.length}</span>
+              )}
+            </Link>
+
+            { userInfo ? (
+              <div className="dropdown">
+
+                <Link to="#">
+                  {userInfo.name} <i className="fa fa-caret-down"></i>{' '}
+                </Link>
+
+                <ul className="dropdown-content">
+                  <li>
+                    <Link to="#signout" onClick={signoutHandler}>
+                      Sign Out
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+            ) : (
+              <Link to="/signIn">Sign-In</Link>
+            )}
           </div>
         </header>
 
@@ -33,6 +67,7 @@ function App() {
 
           <Route path="/cart/:id?" component={CartScreen} />
           <Route path="/signin" component={SignInScreen} />
+          <Route path="/register" component={RegisterScreen} />
           <Route path="/player/:id" component={PlayerScreen} />
           <Route path="/" component={HomeScreen} exact />
         </main>
