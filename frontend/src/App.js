@@ -6,6 +6,9 @@ import HomeScreen from './screens/HomeScreen';
 import PlayerScreen from './screens/PlayerScreen';
 import SignInScreen from './screens/SignInScreen';
 import RegisterScreen from './screens/RegisterScreen';
+import ShippingScreenn from './screens/ShippingScreen';
+import PaymentScreen from './screens/PaymentScreen';
+import PlaceorderScreen from './screens/PlaceorderScreen';
 
 function App() {
 
@@ -68,6 +71,9 @@ function App() {
           <Route path="/cart/:id?" component={CartScreen} />
           <Route path="/signin" component={SignInScreen} />
           <Route path="/register" component={RegisterScreen} />
+          <Route path="/shipping" component={ShippingScreenn} />
+          <Route path="/payment" component={PaymentScreen} />
+          <Route path="/placeorder" component={PlaceorderScreen} />
           <Route path="/player/:id" component={PlayerScreen} />
           <Route path="/" component={HomeScreen} exact />
         </main>
