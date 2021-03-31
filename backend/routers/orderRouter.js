@@ -5,6 +5,15 @@ import { isAuth } from '../utils.js';
 
 const orderRouter = express.Router();
 
+orderRouter.get(
+    '/mine',
+    isAuth,
+    expressAsyncHandler(async (req, res) => {
+        const orders = await Order.find({ user: req.user._id });    
+        res.send(orders);
+    })
+);
+
 orderRouter.post(
     '/',
     isAuth,
@@ -18,7 +27,7 @@ orderRouter.post(
             const order = new Order({
 
                 orderItems: req.body.orderItems,
-                shippingAddress: req.body.shippingAddress,
+                shippingDetails: req.body.shippingDetails,
                 paymentMethod: req.body.paymentMethod,
                 itemsPrice: req.body.itemsPrice,
                 shippingPrice: req.body.shippingPrice,
@@ -34,6 +43,21 @@ orderRouter.post(
                 .send({ message: 'New Order Created', order: createdOrder });
         }
     })    
+);
+
+orderRouter.get(
+    '/:id',
+    isAuth,
+    expressAsyncHandler(async (req, res) => {
+
+        const order = await Order.findById(req.params.id);
+
+        if (order) {
+            res.send(order);
+        } else {
+            res.status(404).send({ message: 'Order Not Found' });
+        }
+    })
 );
 
 export default orderRouter;

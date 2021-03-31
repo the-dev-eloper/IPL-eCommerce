@@ -9,6 +9,10 @@ import RegisterScreen from './screens/RegisterScreen';
 import ShippingScreenn from './screens/ShippingScreen';
 import PaymentScreen from './screens/PaymentScreen';
 import PlaceorderScreen from './screens/PlaceorderScreen';
+import OrderScreen from './screens/OrderScreen';
+import OrderHistoryScreen from './screens/OrderHistoryScreen';
+import ProfileScreen from './screens/ProfileScreen';
+import PrivateRoute from './components/PrivateRoute';
 
 function App() {
 
@@ -54,6 +58,14 @@ function App() {
 
                 <ul className="dropdown-content">
                   <li>
+                    <Link to="/profile">User Profile</Link>
+                  </li>
+
+                  <li>
+                    <Link to="/orderhistory">Order History</Link>
+                  </li>
+
+                  <li>
                     <Link to="#signout" onClick={signoutHandler}>
                       Sign Out
                     </Link>
@@ -69,12 +81,18 @@ function App() {
         <main>
 
           <Route path="/cart/:id?" component={CartScreen} />
+          <Route path="/player/:id" component={PlayerScreen} />
           <Route path="/signin" component={SignInScreen} />
           <Route path="/register" component={RegisterScreen} />
           <Route path="/shipping" component={ShippingScreenn} />
           <Route path="/payment" component={PaymentScreen} />
           <Route path="/placeorder" component={PlaceorderScreen} />
-          <Route path="/player/:id" component={PlayerScreen} />
+          <Route path="/order/:id" component={OrderScreen} />
+          <Route path="/orderhistory" component={OrderHistoryScreen} />
+          <PrivateRoute
+            path="/profile"
+            component={ProfileScreen}
+          ></PrivateRoute>
           <Route path="/" component={HomeScreen} exact />
         </main>
 
