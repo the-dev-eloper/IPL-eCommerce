@@ -13,6 +13,8 @@ import OrderScreen from './screens/OrderScreen';
 import OrderHistoryScreen from './screens/OrderHistoryScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import PrivateRoute from './components/PrivateRoute';
+import AdminRoute from './components/AdminRoute';
+import PlayerListScreen from './screens/PlayerListScreen';
 
 function App() {
 
@@ -75,6 +77,27 @@ function App() {
             ) : (
               <Link to="/signIn">Sign-In</Link>
             )}
+            {userInfo && userInfo.isAdmin && (
+              <div className="dropdown">
+                <Link to="#admin">
+                  Admin <i className="fa fa-caret-down"></i>
+                </Link>
+                <ul className="dropdown-content">
+                  <li>
+                    <Link to="/dashboard">Dashboard</Link>
+                  </li>
+                  <li>
+                    <Link to="/playerlist">Players</Link>
+                  </li>
+                  <li>
+                    <Link to="/orderlist">Orders</Link>
+                  </li>
+                  <li>
+                    <Link to="/userlist">Users</Link>
+                  </li>
+                </ul>
+              </div>
+            )}
           </div>
         </header>
 
@@ -94,6 +117,10 @@ function App() {
             component={ProfileScreen}
           ></PrivateRoute>
           <Route path="/" component={HomeScreen} exact />
+          <AdminRoute
+            path="/playerlist"
+            component={PlayerListScreen}
+          ></AdminRoute>
         </main>
 
         <footer className="row center">
