@@ -34,4 +34,27 @@ playerRouter.get(
     })
 );
 
+playerRouter.post(
+    '/',
+    isAuth,
+    isAdmin,
+    expressAsyncHandler(async (req, res) => {
+
+        const player = new Player({
+            name: 'sample name ' + Date.now(),
+            category: 'sample category',
+            image: '/images/p1.jpg',
+            price: 0,
+            country: 'sample country',
+            international: 'sample international',
+            ranking: 0,
+            description: 'sample description',
+            soldTo: 'sample soldto',
+        });
+
+        const createdPlayer = await player.save();
+        res.send({ message: 'Player Created', player: createdPlayer });
+    })
+);
+
 export default playerRouter;

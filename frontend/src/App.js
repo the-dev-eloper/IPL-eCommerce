@@ -104,7 +104,7 @@ function App() {
         <main>
 
           <Route path="/cart/:id?" component={CartScreen} />
-          <Route path="/player/:id" component={PlayerScreen} />
+          <Route path="/player/:id" component={PlayerScreen} exact />
           <Route path="/signin" component={SignInScreen} />
           <Route path="/register" component={RegisterScreen} />
           <Route path="/shipping" component={ShippingScreenn} />
