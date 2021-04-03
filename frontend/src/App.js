@@ -15,6 +15,7 @@ import ProfileScreen from './screens/ProfileScreen';
 import PrivateRoute from './components/PrivateRoute';
 import AdminRoute from './components/AdminRoute';
 import PlayerListScreen from './screens/PlayerListScreen';
+import PlayerEditScreen from './screens/PlayerEditScreen';
 
 function App() {
 
@@ -105,6 +106,7 @@ function App() {
 
           <Route path="/cart/:id?" component={CartScreen} />
           <Route path="/player/:id" component={PlayerScreen} exact />
+          <Route path="/player/:id/edit" component={PlayerEditScreen} exact />
           <Route path="/signin" component={SignInScreen} />
           <Route path="/register" component={RegisterScreen} />
           <Route path="/shipping" component={ShippingScreenn} />

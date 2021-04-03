@@ -2,6 +2,7 @@ import express from 'express';
 import expressAsyncHandler from 'express-async-handler';
 import data from '../data.js';
 import Player from '../models/playerModel.js';
+import { isAuth, isAdmin } from '../utils.js';
 
 const playerRouter = express.Router();
 

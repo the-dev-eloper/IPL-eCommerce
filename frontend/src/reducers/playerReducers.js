@@ -17,10 +17,7 @@ export const playerListReducer = (
     }
 };
 
-export const playerDetailsReducer = (
-    state = { player: {}, loading: true },
-    action
-) => {
+export const playerDetailsReducer = (state = { loading: true }, action) => {
 
     switch(action.type) {
         case PLAYER_DETAIL_REQUEST:
