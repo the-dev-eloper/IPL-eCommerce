@@ -31,10 +31,7 @@ export const playerDetailsReducer = (state = { loading: true }, action) => {
     }
 };
 
-export const playerCreateReducer = (
-    state = {},
-    action
-) => {
+export const playerCreateReducer = ( state = {}, action ) => {
     switch (action.type) {
         case PLAYER_CREATE_REQUEST:
             return { loading: true };

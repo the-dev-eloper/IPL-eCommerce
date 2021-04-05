@@ -58,4 +58,32 @@ playerRouter.post(
     })
 );
 
+playerRouter.put(
+    '/:id',
+    isAuth,
+    isAdmin,
+    expressAsyncHandler(async (req, res) => {
+
+        const playerId = req.params.id;
+
+        const player = await Player.findById(playerId);
+        if(player) {
+            player.name = req.body.name;
+            player.category = req.body.category;
+            player.image = req.body.image;
+            player.price = req.body.price;
+            player.country = req.body.country;
+            player.international = req.body.international;
+            player.ranking = req.body.ranking;
+            player.description = req.body.description;
+            player.soldTo = req.body.soldTo;
+
+            const updatedPlayer = await Player.save();
+            res.send({ message: 'Player Updated', player: updatedPlayer });
+        } else {
+            res.status(404).send({ message: 'Player Not Found' });
+        }
+    })
+);
+
 export default playerRouter;
