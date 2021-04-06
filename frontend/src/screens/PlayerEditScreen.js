@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { detailsPlayer } from '../actions/playerActions';
+import { detailsPlayer, updatePlayer } from '../actions/playerActions';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
+import { PLAYER_UPDATE_RESET } from '../constants/playerConstants';
 
 export default function PlayerEditScreen(props) {
 
@@ -21,11 +22,23 @@ export default function PlayerEditScreen(props) {
     const playerDetails = useSelector((state) => state.playerDetails);
     const { loading, error, player } = playerDetails;
 
+    const playerUpdate = useSelector((state) => state.playerUpdate);
+    const {
+        loading: loadingUpdate,
+        error: errorUpdate,
+        success: successUpdate
+    } = playerUpdate;
+
     const dispatch = useDispatch();
 
     useEffect(() => {
 
-        if(!player || player._id !== playerId) {
+        if(successUpdate) {
+            props.history.push('/playerlist');
+        }
+
+        if(!player || player._id !== playerId || successUpdate) {
+            dispatch({ type: PLAYER_UPDATE_RESET });
             dispatch(detailsPlayer(playerId));
         } else {
             setName(player.name);
@@ -38,11 +51,25 @@ export default function PlayerEditScreen(props) {
             setDescription(player.description);
             setSoldTo(player.soldTo);
         }
-    }, [player, dispatch, playerId]);
+    }, [player, dispatch, playerId, successUpdate, props.history]);
 
     const submitHandler = (e) => {
         e.preventDefault();
-    }
+        dispatch(
+            updatePlayer({
+                _id: playerId,
+                name,
+                category,
+                image,
+                price,
+                country,
+                international,
+                ranking,
+                description,
+                soldTo
+            })
+        );
+    };
 
     return (
 
@@ -52,6 +79,9 @@ export default function PlayerEditScreen(props) {
                 <div>
                     <h1>Edit Player {playerId}</h1>
                 </div>
+
+                {loadingUpdate && <LoadingBox></LoadingBox>}
+                {errorUpdate && <MessageBox variant="danger">{errorUpdate}</MessageBox>}
 
                 {loading ? (
                     <LoadingBox></LoadingBox>
@@ -96,7 +126,7 @@ export default function PlayerEditScreen(props) {
                             <label htmlFor="price">Price</label>
                             <input
                                 id="price"
-                                type="number"
+                                type="text"
                                 placeholder="Enter price(In Crores)"
                                 value={price}
                                 onChange={(e) => setPrice(e.target.value)}

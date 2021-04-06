@@ -78,7 +78,7 @@ playerRouter.put(
             player.description = req.body.description;
             player.soldTo = req.body.soldTo;
 
-            const updatedPlayer = await Player.save();
+            const updatedPlayer = await player.save();
             res.send({ message: 'Player Updated', player: updatedPlayer });
         } else {
             res.status(404).send({ message: 'Player Not Found' });
