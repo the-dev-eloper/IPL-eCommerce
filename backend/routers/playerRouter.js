@@ -86,4 +86,22 @@ playerRouter.put(
     })
 );
 
+playerRouter.delete(
+    '/:id',
+    isAuth,
+    isAdmin,
+    expressAsyncHandler(async (req, res) => {
+
+        const playerId = req.params.id;
+        const player = await Player.findById(playerId);
+
+        if(player) {
+            const deletePlayer = await player.remove();
+            res.send({ message: 'Player Deleted', player: deletePlayer });
+        } else {
+            res.status(404).send({ message: 'Player Not Found' });
+        }
+    })
+);
+
 export default playerRouter;

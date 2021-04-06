@@ -1,4 +1,4 @@
-import { PLAYER_CREATE_FAIL, PLAYER_CREATE_REQUEST, PLAYER_CREATE_RESET, PLAYER_CREATE_SUCCESS, PLAYER_DETAIL_FAIL, PLAYER_DETAIL_REQUEST, PLAYER_DETAIL_SUCCESS, PLAYER_LIST_FAIL, PLAYER_LIST_REQUEST, PLAYER_LIST_SUCCESS, PLAYER_UPDATE_FAIL, PLAYER_UPDATE_REQUEST, PLAYER_UPDATE_RESET, PLAYER_UPDATE_SUCCESS } from "../constants/playerConstants";
+import { PLAYER_CREATE_FAIL, PLAYER_CREATE_REQUEST, PLAYER_CREATE_RESET, PLAYER_CREATE_SUCCESS, PLAYER_DELETE_FAIL, PLAYER_DELETE_REQUEST, PLAYER_DELETE_RESET, PLAYER_DELETE_SUCCESS, PLAYER_DETAIL_FAIL, PLAYER_DETAIL_REQUEST, PLAYER_DETAIL_SUCCESS, PLAYER_LIST_FAIL, PLAYER_LIST_REQUEST, PLAYER_LIST_SUCCESS, PLAYER_UPDATE_FAIL, PLAYER_UPDATE_REQUEST, PLAYER_UPDATE_RESET, PLAYER_UPDATE_SUCCESS } from "../constants/playerConstants";
 
 export const playerListReducer = (
     state = { loading: true, players: [] },
@@ -59,4 +59,19 @@ export const playerUpdateReducer = ( state = {}, action ) => {
         default:
             return state;
     }
-}
+};
+
+export const playerDeleteReducer = ( state = {}, action ) => {
+    switch (action.type) {
+        case PLAYER_DELETE_REQUEST:
+            return { loading: true };
+        case PLAYER_DELETE_SUCCESS:
+            return { loading: false, success: true };
+        case PLAYER_DELETE_FAIL:
+            return { loading: false, error: action.payload };
+        case PLAYER_DELETE_RESET:
+            return {};
+        default:
+            return state;
+    }
+};

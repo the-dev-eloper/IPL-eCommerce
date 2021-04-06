@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { createPlayer, listPlayers } from '../actions/playerActions';
+import { createPlayer, deletePlayer, listPlayers } from '../actions/playerActions';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
-import { PLAYER_CREATE_RESET } from '../constants/playerConstants';
+import { PLAYER_CREATE_RESET, PLAYER_DELETE_RESET } from '../constants/playerConstants';
 
 export default function PlayerListScreen(props) {
 
@@ -18,6 +18,13 @@ export default function PlayerListScreen(props) {
         player: createdPlayer,
     } = playerCreate;
 
+    const playerDelete = useSelector((state) => state.playerDelete);
+    const {
+        loading: loadingDelete,
+        error: errorDelete,
+        success: successDelete,
+    } = playerDelete;
+
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -25,15 +32,21 @@ export default function PlayerListScreen(props) {
             dispatch({ type: PLAYER_CREATE_RESET });
             props.history.push(`/player/${createdPlayer._id}/edit`);
         }
+
+        if(successDelete) {
+            dispatch({ type: PLAYER_DELETE_RESET });
+        }
         dispatch(listPlayers());
-    }, [createdPlayer, dispatch, props.history, successCreate]);
+    }, [createdPlayer, dispatch, props.history, successCreate, successDelete]);
 
     const createHandler = () => {
         dispatch(createPlayer());
     };
 
-    const deleteHandler = () => {
-
+    const deleteHandler = (player) => {
+        if (window.confirm('Are you sure to delete?')) {
+            dispatch(deletePlayer(player._id));
+        }
     };
 
     return (
@@ -45,6 +58,9 @@ export default function PlayerListScreen(props) {
                     Create Player
                 </button>
             </div>
+
+            {loadingDelete && <LoadingBox></LoadingBox>}
+            {errorDelete && <MessageBox variant="danger">{errorDelete}</MessageBox>}
 
             {loadingCreate && <LoadingBox></LoadingBox>}
             {errorCreate && <MessageBox variant="danger">{errorCreate}</MessageBox>}
